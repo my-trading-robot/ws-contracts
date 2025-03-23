@@ -1,6 +1,6 @@
 use serde::*;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct CandleWsModel {
     pub d: u64,
     pub o: f64,

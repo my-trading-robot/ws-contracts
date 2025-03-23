@@ -2,7 +2,7 @@ use serde::*;
 
 use super::*;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct GetCandlesWsRequestContract {
     pub req_id: i64,
     pub instrument_id: String,

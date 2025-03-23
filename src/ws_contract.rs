@@ -6,6 +6,7 @@ const REQUEST_CANDLES: &'static str = "candles-req";
 const RESPONSE_CANDLES: &'static str = "candles-res";
 const BID_ASK: &'static str = "bid-ask";
 
+#[derive(Debug)]
 pub enum WsContract {
     GetCandlesRequest(GetCandlesWsRequestContract),
     GetCandlesResponse(GetCandlesWsResponseContract),

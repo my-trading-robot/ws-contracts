@@ -1,6 +1,6 @@
 use serde::*;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct BidAskWsModel {
     pub id: String,
     pub bid: f64,
