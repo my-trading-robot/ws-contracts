@@ -1,0 +1,9 @@
+[package]
+name = "ws-contracts"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+hyper-tungstenite = "*"
+serde = { version = "*", features = ["derive"] }
+serde_json = "*"
