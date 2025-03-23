@@ -49,7 +49,7 @@ impl WsContract {
             WsContract::GetCandlesResponse(data) => {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
-                result.insert_str(0, REQUEST_CANDLES);
+                result.insert_str(0, RESPONSE_CANDLES);
                 result
             }
 
