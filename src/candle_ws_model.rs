@@ -1,7 +1,7 @@
 use rust_extensions::sorted_vec::EntityWithKey;
 use serde::*;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CandleWsModel {
     pub d: u64,
     pub o: f64,
