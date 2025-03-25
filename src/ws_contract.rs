@@ -7,6 +7,7 @@ const RESPONSE_CANDLES: &'static str = "candles-res";
 const BID_ASK: &'static str = "bid-ask";
 const SET_PRICE_LEVEL: &'static str = "set-price_level";
 const PRICE_LEVELS: &'static str = "price-levels";
+const ERROR: &'static str = "error";
 
 #[derive(Debug)]
 pub enum WsContract {
@@ -15,6 +16,7 @@ pub enum WsContract {
     BidAsk(Vec<BidAskWsModel>),
     SetPriceLevel(PriceLevelWsModel),
     PriceLevels(Vec<PriceLevelWsModel>),
+    Error(ErrorWsModel),
 }
 
 impl WsContract {
@@ -45,6 +47,10 @@ impl WsContract {
             PRICE_LEVELS => {
                 let data = serde_json::from_str(payload).unwrap();
                 return Some(Self::PriceLevels(data));
+            }
+            ERROR => {
+                let data = serde_json::from_str(payload).unwrap();
+                return Some(Self::Error(data));
             }
             _ => return None,
         }
@@ -81,6 +87,12 @@ impl WsContract {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
                 result.insert_str(0, PRICE_LEVELS);
+                result
+            }
+            WsContract::Error(data) => {
+                let mut result = serde_json::to_string(data).unwrap();
+                result.insert(0, ':');
+                result.insert_str(0, ERROR);
                 result
             }
         };

@@ -14,3 +14,6 @@ pub type WsMessage = hyper_tungstenite::tungstenite::Message;
 mod price_level_model;
 pub use price_level_model::*;
 pub mod consts;
+mod error_ws_model;
+pub use error_ws_model::*;
+pub mod validators;
