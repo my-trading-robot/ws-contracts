@@ -5,16 +5,16 @@ use super::*;
 const REQUEST_CANDLES: &'static str = "candles-req";
 const RESPONSE_CANDLES: &'static str = "candles-res";
 const BID_ASK: &'static str = "bid-ask";
-const SET_LEVEL: &'static str = "set-level";
-const LEVELS: &'static str = "levels";
+const SET_PRICE_LEVEL: &'static str = "set-price_level";
+const PRICE_LEVELS: &'static str = "price-levels";
 
 #[derive(Debug)]
 pub enum WsContract {
     GetCandlesRequest(GetCandlesWsRequestContract),
     GetCandlesResponse(GetCandlesWsResponseContract),
     BidAsk(Vec<BidAskWsModel>),
-    SetLevel(LevelModel),
-    Levels(Vec<LevelModel>),
+    SetPriceLevel(PriceLevelWsModel),
+    PriceLevels(Vec<PriceLevelWsModel>),
 }
 
 impl WsContract {
@@ -38,13 +38,13 @@ impl WsContract {
                 let data = serde_json::from_str(payload).unwrap();
                 return Some(Self::BidAsk(data));
             }
-            SET_LEVEL => {
+            SET_PRICE_LEVEL => {
                 let data = serde_json::from_str(payload).unwrap();
-                return Some(Self::SetLevel(data));
+                return Some(Self::SetPriceLevel(data));
             }
-            LEVELS => {
+            PRICE_LEVELS => {
                 let data = serde_json::from_str(payload).unwrap();
-                return Some(Self::Levels(data));
+                return Some(Self::PriceLevels(data));
             }
             _ => return None,
         }
@@ -71,16 +71,16 @@ impl WsContract {
                 result.insert_str(0, BID_ASK);
                 result
             }
-            WsContract::SetLevel(data) => {
+            WsContract::SetPriceLevel(data) => {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
-                result.insert_str(0, SET_LEVEL);
+                result.insert_str(0, SET_PRICE_LEVEL);
                 result
             }
-            WsContract::Levels(data) => {
+            WsContract::PriceLevels(data) => {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
-                result.insert_str(0, LEVELS);
+                result.insert_str(0, PRICE_LEVELS);
                 result
             }
         };
