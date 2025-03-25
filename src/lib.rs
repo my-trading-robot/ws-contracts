@@ -16,4 +16,6 @@ pub use price_level_model::*;
 pub mod consts;
 mod error_ws_model;
 pub use error_ws_model::*;
+mod set_active_instrument_model;
 pub mod validators;
+pub use set_active_instrument_model::*;

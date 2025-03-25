@@ -8,6 +8,7 @@ const BID_ASK: &'static str = "bid-ask";
 const SET_PRICE_LEVEL: &'static str = "set-price_level";
 const PRICE_LEVELS: &'static str = "price-levels";
 const ERROR: &'static str = "error";
+const SET_ACTIVE_INSTRUMENT: &'static str = "set-active-instrument";
 
 #[derive(Debug)]
 pub enum WsContract {
@@ -16,6 +17,7 @@ pub enum WsContract {
     BidAsk(Vec<BidAskWsModel>),
     SetPriceLevel(PriceLevelWsModel),
     PriceLevels(Vec<PriceLevelWsModel>),
+    SetActiveInstrument(SetActiveInstrumentWsModel),
     Error(ErrorWsModel),
 }
 
@@ -51,6 +53,10 @@ impl WsContract {
             ERROR => {
                 let data = serde_json::from_str(payload).unwrap();
                 return Some(Self::Error(data));
+            }
+            SET_ACTIVE_INSTRUMENT => {
+                let data = serde_json::from_str(payload).unwrap();
+                return Some(Self::SetActiveInstrument(data));
             }
             _ => return None,
         }
@@ -93,6 +99,12 @@ impl WsContract {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
                 result.insert_str(0, ERROR);
+                result
+            }
+            WsContract::SetActiveInstrument(data) => {
+                let mut result = serde_json::to_string(data).unwrap();
+                result.insert(0, ':');
+                result.insert_str(0, SET_ACTIVE_INSTRUMENT);
                 result
             }
         };
