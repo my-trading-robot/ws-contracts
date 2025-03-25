@@ -11,9 +11,13 @@ pub struct PriceLevelWsModel {
     pub tp: String,
 }
 
-impl Into<WsContract> for PriceLevelWsModel {
-    fn into(self) -> WsContract {
+impl PriceLevelWsModel {
+    pub fn into_set_price_level(self) -> WsContract {
         WsContract::SetPriceLevel(self)
+    }
+
+    pub fn into_delete_price_level(self) -> WsContract {
+        WsContract::DeletePriceLevel(self)
     }
 }
 
