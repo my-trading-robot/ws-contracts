@@ -5,12 +5,16 @@ use super::*;
 const REQUEST_CANDLES: &'static str = "candles-req";
 const RESPONSE_CANDLES: &'static str = "candles-res";
 const BID_ASK: &'static str = "bid-ask";
+const SET_LEVEL: &'static str = "set-level";
+const LEVELS: &'static str = "levels";
 
 #[derive(Debug)]
 pub enum WsContract {
     GetCandlesRequest(GetCandlesWsRequestContract),
     GetCandlesResponse(GetCandlesWsResponseContract),
     BidAsk(Vec<BidAskWsModel>),
+    SetLevel(LevelModel),
+    Levels(Vec<LevelModel>),
 }
 
 impl WsContract {
@@ -33,6 +37,14 @@ impl WsContract {
             BID_ASK => {
                 let data = serde_json::from_str(payload).unwrap();
                 return Some(Self::BidAsk(data));
+            }
+            SET_LEVEL => {
+                let data = serde_json::from_str(payload).unwrap();
+                return Some(Self::SetLevel(data));
+            }
+            LEVELS => {
+                let data = serde_json::from_str(payload).unwrap();
+                return Some(Self::Levels(data));
             }
             _ => return None,
         }
@@ -57,6 +69,18 @@ impl WsContract {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
                 result.insert_str(0, BID_ASK);
+                result
+            }
+            WsContract::SetLevel(data) => {
+                let mut result = serde_json::to_string(data).unwrap();
+                result.insert(0, ':');
+                result.insert_str(0, SET_LEVEL);
+                result
+            }
+            WsContract::Levels(data) => {
+                let mut result = serde_json::to_string(data).unwrap();
+                result.insert(0, ':');
+                result.insert_str(0, LEVELS);
                 result
             }
         };

@@ -11,3 +11,6 @@ pub use get_candles_ws_response_contract::*;
 mod ws_candle_type;
 pub use ws_candle_type::*;
 pub type WsMessage = hyper_tungstenite::tungstenite::Message;
+mod level_model;
+pub use level_model::*;
+pub mod consts;
