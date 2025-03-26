@@ -11,6 +11,21 @@ pub struct CandleWsModel {
     pub v: f64,
 }
 
+impl CandleWsModel {
+    pub fn merge(&mut self, other: &Self) {
+        if self.h < other.h {
+            self.h = other.h;
+        }
+
+        if self.l > other.l {
+            self.l = other.l;
+        }
+
+        self.v += other.v;
+        self.c = other.c;
+    }
+}
+
 impl EntityWithKey<u64> for CandleWsModel {
     fn get_key(&self) -> &u64 {
         &self.d
