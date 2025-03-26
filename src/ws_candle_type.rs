@@ -30,4 +30,11 @@ impl WsCandleType {
             }
         }
     }
+
+    pub fn is_min5(&self) -> bool {
+        match self {
+            WsCandleType::Min5 => true,
+            _ => false,
+        }
+    }
 }
