@@ -10,6 +10,8 @@ const DEL_PRICE_LEVEL: &'static str = "del-price_level";
 const PRICE_LEVELS: &'static str = "price-levels";
 const ERROR: &'static str = "error";
 const SET_ACTIVE_INSTRUMENT: &'static str = "set-active-instrument";
+const INSTRUMENTS: &'static str = "instruments";
+const ATR: &'static str = "atr";
 
 #[derive(Debug)]
 pub enum WsContract {
@@ -20,6 +22,8 @@ pub enum WsContract {
     DeletePriceLevel(PriceLevelWsModel),
     PriceLevels(Vec<PriceLevelWsModel>),
     SetActiveInstrument(SetActiveInstrumentWsModel),
+    Instruments(Vec<InstrumentWsModel>),
+    Atr(Vec<AtrWsModel>),
     Error(ErrorWsModel),
 }
 
@@ -63,6 +67,14 @@ impl WsContract {
             SET_ACTIVE_INSTRUMENT => {
                 let data = serde_json::from_str(payload).unwrap();
                 return Some(Self::SetActiveInstrument(data));
+            }
+            INSTRUMENTS => {
+                let data = serde_json::from_str(payload).unwrap();
+                return Some(Self::Instruments(data));
+            }
+            ATR => {
+                let data = serde_json::from_str(payload).unwrap();
+                return Some(Self::Atr(data));
             }
             _ => return None,
         }
@@ -117,6 +129,18 @@ impl WsContract {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
                 result.insert_str(0, SET_ACTIVE_INSTRUMENT);
+                result
+            }
+            WsContract::Instruments(data) => {
+                let mut result = serde_json::to_string(data).unwrap();
+                result.insert(0, ':');
+                result.insert_str(0, INSTRUMENTS);
+                result
+            }
+            WsContract::Atr(data) => {
+                let mut result = serde_json::to_string(data).unwrap();
+                result.insert(0, ':');
+                result.insert_str(0, ATR);
                 result
             }
         };

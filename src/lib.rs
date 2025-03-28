@@ -19,3 +19,7 @@ pub use error_ws_model::*;
 mod set_active_instrument_model;
 pub mod validators;
 pub use set_active_instrument_model::*;
+mod atr_ws_model;
+pub use atr_ws_model::*;
+mod instrument_ws_model;
+pub use instrument_ws_model::*;
