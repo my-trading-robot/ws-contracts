@@ -37,4 +37,32 @@ impl WsCandleType {
             _ => false,
         }
     }
+
+    pub fn is_min(&self) -> bool {
+        match self {
+            WsCandleType::Minute => true,
+            _ => false,
+        }
+    }
+
+    pub fn is_hour(&self) -> bool {
+        match self {
+            WsCandleType::Hour => true,
+            _ => false,
+        }
+    }
+
+    pub fn is_day(&self) -> bool {
+        match self {
+            WsCandleType::Day => true,
+            _ => false,
+        }
+    }
+
+    pub fn is_month(&self) -> bool {
+        match self {
+            WsCandleType::Month => true,
+            _ => false,
+        }
+    }
 }
