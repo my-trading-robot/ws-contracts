@@ -23,3 +23,5 @@ mod atr_ws_model;
 pub use atr_ws_model::*;
 mod instrument_ws_model;
 pub use instrument_ws_model::*;
+mod near_level_ws_model;
+pub use near_level_ws_model::*;

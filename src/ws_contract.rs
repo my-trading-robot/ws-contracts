@@ -12,6 +12,7 @@ const ERROR: &'static str = "error";
 const SET_ACTIVE_INSTRUMENT: &'static str = "set-active-instrument";
 const INSTRUMENTS: &'static str = "instruments";
 const ATR: &'static str = "atr";
+const NEAR_LEVEL: &'static str = "near_level";
 
 #[derive(Debug)]
 pub enum WsContract {
@@ -24,6 +25,7 @@ pub enum WsContract {
     SetActiveInstrument(SetActiveInstrumentWsModel),
     Instruments(Vec<InstrumentWsModel>),
     Atr(Vec<AtrWsModel>),
+    NearLevelWsModel(Vec<NearLevelWsModel>),
     Error(ErrorWsModel),
 }
 
@@ -75,6 +77,10 @@ impl WsContract {
             ATR => {
                 let data = serde_json::from_str(payload).unwrap();
                 return Some(Self::Atr(data));
+            }
+            NEAR_LEVEL => {
+                let data = serde_json::from_str(payload).unwrap();
+                return Some(Self::NearLevelWsModel(data));
             }
             _ => return None,
         }
@@ -141,6 +147,13 @@ impl WsContract {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
                 result.insert_str(0, ATR);
+                result
+            }
+
+            WsContract::NearLevelWsModel(data) => {
+                let mut result = serde_json::to_string(data).unwrap();
+                result.insert(0, ':');
+                result.insert_str(0, NEAR_LEVEL);
                 result
             }
         };
