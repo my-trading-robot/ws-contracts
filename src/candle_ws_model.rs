@@ -1,3 +1,4 @@
+use candle_patterns::candle::Candle;
 use rust_extensions::sorted_vec::EntityWithKey;
 use serde::*;
 
@@ -29,5 +30,27 @@ impl CandleWsModel {
 impl EntityWithKey<u64> for CandleWsModel {
     fn get_key(&self) -> &u64 {
         &self.d
+    }
+}
+
+impl Candle for CandleWsModel {
+    fn get_time_key(&self) -> u64 {
+        self.d
+    }
+
+    fn get_open(&self) -> f64 {
+        self.o
+    }
+
+    fn get_high(&self) -> f64 {
+        self.h
+    }
+
+    fn get_low(&self) -> f64 {
+        self.l
+    }
+
+    fn get_close(&self) -> f64 {
+        self.c
     }
 }
