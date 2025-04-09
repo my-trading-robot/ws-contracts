@@ -1,3 +1,5 @@
+use rust_extensions::date_time::*;
+
 #[derive(Debug, Clone, Copy)]
 pub enum WsCandleType {
     Minute,
@@ -8,6 +10,31 @@ pub enum WsCandleType {
 }
 
 impl WsCandleType {
+    pub fn to_date_time(&self, value: i64) -> DateTimeAsMicroseconds {
+        match self {
+            WsCandleType::Minute => {
+                let interval: IntervalKey<MinuteKey> = value.try_into().unwrap();
+                return interval.try_to_date_time().unwrap();
+            }
+            WsCandleType::Min5 => {
+                let interval: IntervalKey<Minute5Key> = value.try_into().unwrap();
+                return interval.try_to_date_time().unwrap();
+            }
+            WsCandleType::Hour => {
+                let interval: IntervalKey<HourKey> = value.try_into().unwrap();
+                return interval.try_to_date_time().unwrap();
+            }
+            WsCandleType::Day => {
+                let interval: IntervalKey<DayKey> = value.try_into().unwrap();
+                return interval.try_to_date_time().unwrap();
+            }
+            WsCandleType::Month => {
+                let interval: IntervalKey<MonthKey> = value.try_into().unwrap();
+                return interval.try_to_date_time().unwrap();
+            }
+        }
+    }
+
     pub fn as_str(&self) -> &str {
         match self {
             WsCandleType::Minute => crate::consts::MINUTE,
