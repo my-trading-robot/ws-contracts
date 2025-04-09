@@ -6,5 +6,5 @@ use serde::*;
 pub struct TrendWsModel {
     pub id: String,
     pub tp: String,
-    pub value: String,
+    pub direction: String,
 }
