@@ -38,11 +38,13 @@ const INSTRUMENTS: &'static str = "instruments";
 const ATR: &'static str = "atr";
 const NEAR_LEVEL: &'static str = "near_level";
 const TREND: &'static str = "trend";
+const RT_CANDLES: &'static str = "rt-candle";
 
 #[derive(Debug)]
 pub enum WsContract {
     GetCandlesRequest(GetCandlesWsRequestContract),
     GetCandlesResponse(GetCandlesWsResponseContract),
+    RealTimeCandles(Vec<CandleWsModel>),
     BidAsk(Vec<BidAskWsModel>),
     SetPriceLevel(PriceLevelWsModel),
     DeletePriceLevel(PriceLevelWsModel),
@@ -71,6 +73,10 @@ impl WsContract {
             RESPONSE_CANDLES => {
                 let data = serde_json::from_str(payload).unwrap();
                 return Some(Self::GetCandlesResponse(data));
+            }
+            RT_CANDLES => {
+                let data = serde_json::from_str(payload).unwrap();
+                return Some(Self::RealTimeCandles(data));
             }
             BID_ASK => {
                 let data = serde_json::from_str(payload).unwrap();
@@ -191,6 +197,13 @@ impl WsContract {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
                 result.insert_str(0, TREND);
+                result
+            }
+
+            WsContract::RealTimeCandles(data) => {
+                let mut result = serde_json::to_string(data).unwrap();
+                result.insert(0, ':');
+                result.insert_str(0, RT_CANDLES);
                 result
             }
         };
