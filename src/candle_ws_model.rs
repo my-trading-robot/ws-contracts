@@ -4,7 +4,8 @@ use serde::*;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CandleWsModel {
-    pub id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub id: Option<String>,
     pub d: u64,
     pub o: f64,
     pub c: f64,
