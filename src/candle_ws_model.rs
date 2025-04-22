@@ -4,6 +4,7 @@ use serde::*;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct CandleWsModel {
+    pub id: String,
     pub d: u64,
     pub o: f64,
     pub c: f64,
