@@ -55,4 +55,8 @@ impl Candle for CandleWsModel {
     fn get_close(&self) -> f64 {
         self.c
     }
+
+    fn get_volume(&self) -> f64 {
+        self.v
+    }
 }
