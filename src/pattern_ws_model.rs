@@ -2,22 +2,22 @@ use serde::*;
 
 #[derive(Debug, Clone, Copy)]
 pub enum WsPatternType {
-    LimitBuyer,
-    LimitSeller,
+    SignalLimitBuyer,
+    SignalLimitSeller,
 }
 
 impl WsPatternType {
     pub fn from_str(src: &str) -> Option<Self> {
         match src {
-            "LimitBuyer" => Self::LimitBuyer.into(),
-            "LimitSeller" => Self::LimitSeller.into(),
+            "SignalLimitBuyer" => Self::SignalLimitBuyer.into(),
+            "SignalLimitSeller" => Self::SignalLimitSeller.into(),
             _ => None,
         }
     }
     pub fn as_str(&self) -> &'static str {
         match self {
-            Self::LimitBuyer => "LimitBuyer",
-            Self::LimitSeller => "LimitSeller",
+            Self::SignalLimitBuyer => "SignalLimitBuyer",
+            Self::SignalLimitSeller => "SignalLimitSeller",
         }
     }
 }
