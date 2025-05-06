@@ -25,6 +25,8 @@ mod near_level_ws_model;
 pub use near_level_ws_model::*;
 mod trend_ws_model;
 pub use trend_ws_model::*;
+mod pattern_ws_model;
+pub use pattern_ws_model::*;
 
 const REQUEST_CANDLES: &'static str = "candles-req";
 const RESPONSE_CANDLES: &'static str = "candles-res";
@@ -39,6 +41,7 @@ const ATR: &'static str = "atr";
 const NEAR_LEVEL: &'static str = "near_level";
 const TREND: &'static str = "trend";
 const RT_CANDLES: &'static str = "rt-candle";
+const PATTERN: &'static str = "pattern";
 
 #[derive(Debug)]
 pub enum WsContract {
@@ -54,6 +57,7 @@ pub enum WsContract {
     Atr(Vec<AtrWsModel>),
     NearLevelWsModel(Vec<NearLevelWsModel>),
     Trend(Vec<TrendWsModel>),
+    Pattern(Vec<PatternWsModel>),
     Error(ErrorWsModel),
 }
 
@@ -117,6 +121,11 @@ impl WsContract {
             TREND => {
                 let data = serde_json::from_str(payload).unwrap();
                 return Some(Self::Trend(data));
+            }
+
+            PATTERN => {
+                let data = serde_json::from_str(payload).unwrap();
+                return Some(Self::Pattern(data));
             }
             _ => return None,
         }
@@ -204,6 +213,13 @@ impl WsContract {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
                 result.insert_str(0, RT_CANDLES);
+                result
+            }
+
+            WsContract::Pattern(data) => {
+                let mut result = serde_json::to_string(data).unwrap();
+                result.insert(0, ':');
+                result.insert_str(0, PATTERN);
                 result
             }
         };
