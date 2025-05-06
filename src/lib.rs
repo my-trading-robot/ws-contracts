@@ -41,7 +41,7 @@ const ATR: &'static str = "atr";
 const NEAR_LEVEL: &'static str = "near_level";
 const TREND: &'static str = "trend";
 const RT_CANDLES: &'static str = "rt-candle";
-const PATTERN: &'static str = "pattern";
+const PATTERNS: &'static str = "patterns";
 
 #[derive(Debug)]
 pub enum WsContract {
@@ -57,7 +57,7 @@ pub enum WsContract {
     Atr(Vec<AtrWsModel>),
     NearLevelWsModel(Vec<NearLevelWsModel>),
     Trend(Vec<TrendWsModel>),
-    Pattern(Vec<PatternWsModel>),
+    Patterns(Vec<PatternWsModel>),
     Error(ErrorWsModel),
 }
 
@@ -123,9 +123,9 @@ impl WsContract {
                 return Some(Self::Trend(data));
             }
 
-            PATTERN => {
+            PATTERNS => {
                 let data = serde_json::from_str(payload).unwrap();
-                return Some(Self::Pattern(data));
+                return Some(Self::Patterns(data));
             }
             _ => return None,
         }
@@ -216,10 +216,10 @@ impl WsContract {
                 result
             }
 
-            WsContract::Pattern(data) => {
+            WsContract::Patterns(data) => {
                 let mut result = serde_json::to_string(data).unwrap();
                 result.insert(0, ':');
-                result.insert_str(0, PATTERN);
+                result.insert_str(0, PATTERNS);
                 result
             }
         };
