@@ -1,12 +1,12 @@
 use serde::*;
 
 #[derive(Debug, Clone, Copy)]
-pub enum PatternType {
+pub enum WsPatternType {
     LimitBuyer,
     LimitSeller,
 }
 
-impl PatternType {
+impl WsPatternType {
     pub fn from_str(src: &str) -> Option<Self> {
         match src {
             "LimitBuyer" => Self::LimitBuyer.into(),
@@ -16,8 +16,8 @@ impl PatternType {
     }
     pub fn as_str(&self) -> &'static str {
         match self {
-            PatternType::LimitBuyer => "LimitBuyer",
-            PatternType::LimitSeller => "LimitSeller",
+            Self::LimitBuyer => "LimitBuyer",
+            Self::LimitSeller => "LimitSeller",
         }
     }
 }
@@ -25,12 +25,12 @@ impl PatternType {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PatternWsModel {
     pub instr_id: String,
-    pub tp: String,
+    pub candle_type: String,
     pub pattern: String,
 }
 
 impl PatternWsModel {
-    pub fn try_get_pattern(&self) -> Option<PatternType> {
-        PatternType::from_str(&self.pattern)
+    pub fn try_get_pattern(&self) -> Option<WsPatternType> {
+        WsPatternType::from_str(&self.pattern)
     }
 }
